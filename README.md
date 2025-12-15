@@ -1,0 +1,2 @@
+# cubiq-care-monitor
+Monitor de equipamentos para Cubiq Care
