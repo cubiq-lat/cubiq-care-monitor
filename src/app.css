@@ -1,0 +1,376 @@
+@import "tailwindcss";
+/* @plugin "daisyui"; */
+
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, cupcake;
+}
+
+*,
+*::after,
+*::before {
+    /* transition: opacity 0.2s linear; */
+    /* outline: 2px solid lime; */
+}
+html {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    display: block;
+}
+
+html,
+body {
+    @apply overflow-x-hidden;
+    /* @apply md:overflow-auto; */
+}
+@plugin "daisyui" {
+    themes: cubiq --default, cubiq-dark --prefersdark;
+}
+
+@theme {
+    /* Override the default sans-family token */
+    --font-sans: "Source Sans Pro", sans-serif;
+    --font-pixel: "Tiny5", sans-serif;
+    --font-mono: "Fira Code Variable", monospace;
+    /* Project max-width */
+    --max-width-fw: 1100px; /*  e 275px at ProductSingle.svelte */
+    /* --max-width-fw: 1024px; */
+    --color-grey-light: #161616;
+
+    --cubiq-app-margin: 25px;
+}
+
+/* ——— Dark Theme ——— */
+@plugin "daisyui/theme" {
+    name: "cubiq-dark";
+    default: false;
+    prefersdark: true;
+    color-scheme: dark;
+
+    /* Neutral colors (inverted) */
+    --color-base-100: #000000;
+    --color-base-200: #222222;
+    --color-base-300: #3a3a3a;
+
+    --color-base-content: #f9f9f9;
+
+    /* Primary stays the same for brand consistency */
+    --color-primary: #ff4016;
+    --color-primary-content: #ffffff;
+
+    /* Secondary and accent swapped for contrast */
+    --color-secondary: #8a8a8a;
+    --color-secondary-content: #ffffff;
+    --color-accent: #71767b;
+    --color-accent-content: #ffffff;
+
+    /* Neutral semantic */
+    --color-neutral: #8a8a8a;
+    --color-neutral-content: #ffffff;
+
+    /* Status colors (lighter variants) */
+    --color-info: #3abff8;
+    /* --color-success: #36d399; */
+    --color-success: #03a86b;
+    --color-warning: #fbbd23;
+    --color-error: #f87272;
+
+    /* Radii */
+    --radius-selector: 1rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.5rem;
+
+    /* Sizes */
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    /* Border */
+    --border: 1px;
+
+    /* Effects */
+    --depth: 1;
+    --noise: 0;
+}
+
+@utility fw-border-b-divider-dot {
+    &::after {
+        --right-position: 15%;
+        content: "";
+        background-image: url("/bgs/square.svg");
+        position: absolute;
+        right: calc((100vw - var(--max-width-fw)) / 2);
+        bottom: -7px;
+        width: 15px;
+        height: 15px;
+        z-index: 100;
+    }
+}
+@utility fw-border-b-divider-dot-none {
+    &::after {
+        content: none;
+    }
+}
+@utility fw-border-t-divider-dot {
+    &::after {
+        --right-position: 15%;
+        content: "";
+        background-image: url("/bgs/square.svg");
+        position: absolute;
+        right: calc((100vw - var(--max-width-fw)) / 2);
+        top: -7px;
+        width: 15px;
+        height: 15px;
+    }
+}
+
+@utility fw-cmp-box-with-dot {
+    &::after {
+        right: calc((var(--max-width-fw) / 3) - 8px);
+        @apply !top-12;
+    }
+}
+
+@utility no-scroll {
+    overflow: hidden !important;
+    touch-action: none; /* prevent touch scrolling */
+    height: 100vh; /* guard against iOS bounce */
+}
+
+@utility fw-border-t {
+    border-top: 0.5px solid var(--color-base-300);
+}
+
+@utility fw-border-t-none {
+    border-top: 0 !important;
+}
+
+@layer utilities {
+    .fw-header-fs {
+        @apply text-[19px] font-light;
+    }
+    .fw-pill {
+        @apply relative mt-2 block w-full rounded-full px-4 py-1 text-center text-[11px] font-bold uppercase opacity-80;
+    }
+    .fw-pill-light {
+        @apply text-primary bg-white;
+    }
+    .fw-pill-primary {
+        @apply bg-primary text-white;
+    }
+    .fw-pill-primary-transparent {
+        @apply bg-primary/10 hover:bg-primary hover:text-base-200 border-primary/30 text-primary border pb-[1px];
+    }
+    .fw-pill-accent {
+        @apply hover:text-base-200 border-accent/30 border bg-green-500/20 pb-[1px] text-white hover:bg-green-500/90;
+    }
+    /* Pulsing accent pill variations */
+    .fw-pill-accent-pulse {
+        @apply hover:text-base-200 border-accent/30 border bg-green-500/30 pb-[1px] text-white hover:bg-green-500/90;
+        animation: fw-colorPulse 2s ease-in-out infinite;
+    }
+
+    .fw-pill-accent-pulse-vibrant {
+        @apply hover:text-base-200 border-accent/30 border bg-green-500/20 pb-[1px] text-white hover:bg-green-500/90;
+        animation: fw-colorPulseVibrant 2s ease-in-out infinite;
+    }
+
+    .fw-pill-accent-pulse-brightness {
+        @apply hover:text-base-200 border-accent/30 border bg-green-500/20 pb-[1px] text-white hover:bg-green-500/90;
+        animation: fw-brightnessPulse 2s ease-in-out infinite;
+    }
+
+    .fw-border-b-divider {
+        /* border-bottom: 0.5px solid var(--color-base-300); */
+    }
+    .fw-border-t-divider {
+        border-top: 0.5px solid var(--color-base-300);
+    }
+
+    .fw-border-b-divider-dot-center::after,
+    .fw-border-t-divider-dot-center::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    .fw-button {
+        @apply text-base-200 bg-base-content rounded-full px-6 py-2 text-sm md:text-base;
+        @apply z-20;
+        @apply flex items-center;
+    }
+    .fw-button > span {
+        @apply tracking-wide;
+    }
+    .fw-button-lg {
+        @apply !text-[14px] md:!text-[16px];
+    }
+    .fw-button-outline {
+        @apply text-base-content border-base-content border bg-transparent;
+    }
+    .fw-home-about {
+        @apply font-pixel text-secondary text-[18px] md:text-[22px];
+    }
+    .fw-home-about a {
+        @apply text-base-content font-pixel no-underline;
+    }
+    .fw-home-about span {
+        @apply text-primary font-pixel mx-2 text-2xl;
+    }
+    .fw-home-about p {
+        @apply mb-6;
+    }
+    .fw-text-pixel {
+        @apply mb-6 !text-5xl font-bold;
+    }
+
+    .fw-login-error {
+        @apply rounded-2xl pt-2 pb-4 text-red-700;
+    }
+
+    /* Pre-compiled backgrounds */
+    .fw-bg-base {
+        @apply bg-[url('/bgs/header-base-2.jpg')];
+        /* @apply bg-[url('/bgs/header-underconstruction.jpeg')]; */
+    }
+    .fw-bg-space {
+        @apply bg-[url('/bgs/ngc-2899.jpg')];
+        /* @apply bg-[url('/bgs/header-underconstruction.jpeg')]; */
+    }
+    .fw-bg-stars {
+        @apply bg-[url('/bgs/header-lab.jpeg')];
+        /* @apply bg-[url('/bgs/header-underconstruction.jpeg')]; */
+    }
+    .fw-bg-rocket {
+        /* @apply bg-[url('/bgs/header-finx.jpeg')]; */
+        @apply bg-[url('/bgs/header-moving-stars.webp')] opacity-50 md:opacity-50;
+    }
+    .fw-bg-astronaut {
+        /* @apply bg-[url('/bgs/header-caresync.png')]; */
+        @apply bg-[url('/bgs/header-moving-stars-2-2.webp')] opacity-20;
+    }
+    .fw-bg-bagity {
+        /* @apply bg-conic bg-[url('/bgs/header-bagity-4.png')] opacity-50; */
+        @apply bg-conic bg-[url('/bgs/header-purple-haze.jpeg')] opacity-45;
+    }
+    .fw-bg-construction {
+        @apply bg-[url('/bgs/header-underconstruction.jpeg')];
+        /* @apply bg-[url('/bgs/ngc-2899.jpg')]; */
+    }
+    .fw-cmp-box-content {
+        @apply text-secondary px-14 py-10 text-left font-sans text-[16px] leading-6 tracking-wide md:py-12;
+    }
+    .fw-cmp-box-button {
+        @apply bg-primary text-base-200 mt-6 flex w-full items-center justify-center gap-2 self-center rounded-2xl border px-5 py-2 transition-all duration-300 hover:opacity-50 md:w-[90%];
+    }
+
+    /* For blog */
+    .fw-article-content h2,
+    .fw-article-content h3 {
+        @apply my-5 font-bold;
+    }
+    .fw-article-content h2 {
+        @apply mt-5 text-xl md:mt-8 md:text-3xl;
+    }
+    .fw-article-content h3 {
+        @apply text-lg md:text-2xl;
+    }
+
+    .fw-article-content p {
+        @apply font-normal;
+    }
+    .fw-article-content a {
+        @apply text-primary;
+    }
+    .fw-article-content ol {
+        @apply border-base-200 border-0;
+    }
+    .fw-article-content hr {
+        @apply border-0;
+    }
+    .fw-article-content pre {
+        @apply border-base-200 my-5 rounded-lg border bg-black p-3 text-xs break-words whitespace-pre-wrap;
+    }
+}
+
+@layer base {
+    * {
+        @apply transition-opacity duration-200 ease-in-out;
+    }
+    a:hover,
+    .cursor-fw,
+    button:hover {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 61.77 72.86' width='32' height='38'><g><polygon points='61.18 50.34 59.19 42.94 61.65 40.48 61.77 40.44 56.06 19.15 53.03 19.96 52.22 16.93 49.19 17.74 48.38 14.71 42.32 16.34 41.51 13.31 32.42 15.74 31.61 12.71 25.55 14.34 22.3 2.22 19.27 3.03 18.46 0 12.31 1.65 10.1 5.49 10.1 5.51 5.62 9.96 11.3 31.14 4.47 32.97 0 37.45 0.83 40.56 2.46 46.62 5.49 45.81 6.3 48.84 9.33 48.03 10.95 54.09 13.98 53.28 15.61 59.33 18.64 58.52 20.26 64.58 23.29 63.77 24.91 69.83 25.73 72.86 52.99 65.55 56.11 64.72 60.58 60.24 58.6 52.84 61.06 50.38 61.18 50.34'/><path fill='white' d='M53,20l-.81-3-3,.81-.81-3-6.06,1.62-.81-3L32.39,15.8l-.81-3-6.06,1.62L22.27,2.27l-3,.81-.81-3L12.37,1.68l.81,3-3,.81,7.31,27.27-3,.81-.81-3L4.53,33l.81,3,.41,1.52L7,42.09l3-.81.82,3,3-.81,1.63,6.06,3-.81,1.62,6.06,3-.82,1.62,6.06,3-.81,1.63,6.06.81,3L57.5,61l3-.82-2.44-9.09,3-.81-2.43-9.09,3-.81L56,19.2Z'/></g></svg>")
+                5 5,
+            pointer;
+    }
+
+    button {
+        @apply cursor-pointer hover:opacity-50;
+    }
+    header {
+        @apply font-pixel w-full;
+    }
+    header a {
+        @apply hover:opacity-50;
+    }
+
+    main {
+        @apply font-pixel bg-base-100 text-base-content mx-(--cubiq-app-margin);
+    }
+    footer {
+        @apply font-pixel;
+    }
+    footer li > a {
+        @apply hover:!text-black;
+    }
+
+    /* CMP BOX */
+    .fw-cmp-box {
+        @apply border-base-200 flex flex-1 flex-col border-r;
+    }
+    .fw-cmp-box-title {
+        @apply border-base-200 border-t border-b p-3 text-center text-2xl tracking-wider md:border-t-0;
+    }
+    .fw-cmp-box-content {
+        @apply flex-1 py-30 text-center;
+    }
+
+    .fw-dashboard-left-menu-icon {
+        @apply aspect-square h-7 md:h-4;
+    }
+
+    .img-rotate {
+        transform: rotate(-1deg);
+        transition: transform 0.3s ease-in-out;
+    }
+    .img-rotate:hover {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes fw-colorPulse {
+    0%,
+    100% {
+        background-color: rgb(34 197 94 / 0.3); /* bg-green-500/30 */
+    }
+    50% {
+        background-color: rgb(34 197 94 / 0.8); /* More opaque green-500 */
+    }
+}
+
+@keyframes fw-colorPulseVibrant {
+    0%,
+    100% {
+        background-color: rgb(34 197 94 / 0.3); /* bg-green-500/30 */
+    }
+    50% {
+        background-color: rgb(34 197 94 / 0.8); /* Full green-500 like hover */
+    }
+}
+
+@keyframes fw-brightnessPulse {
+    0%,
+    100% {
+        filter: brightness(1) saturate(1);
+    }
+    50% {
+        filter: brightness(1.3) saturate(1.5);
+    }
+}
