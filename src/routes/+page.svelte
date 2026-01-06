@@ -1,5 +1,6 @@
 <script lang="ts">
     import { TriangleAlert } from "@lucide/svelte";
+    import { invoke } from "@tauri-apps/api/core";
     import { onMount } from "svelte";
 
     interface DmiReport {
@@ -40,27 +41,14 @@
 
     async function greet(event: Event) {
         event.preventDefault();
-        // greetMsg = await invoke("greet", { name });
+        greetMsg = await invoke("greet", { name });
     }
 
     async function fetchReport() {
         try {
-            // Simulando dados para o exemplo
-            report = {
-                os_name: "Ubuntu",
-                os_version: "22.04 LTS",
-                kernel_version: "5.15.0-91-generic",
-                host_name: "cubiq-workstation-01",
-                cpu_arch: "x86_64",
-                hardware: {
-                    product_name: "ThinkPad X1 Carbon Gen 9",
-                    manufacturer: "Lenovo",
-                    serial_number: "PF3K8X2Y",
-                    uuid: "4c4c4544-0050-4610-8033-b8c04f4b3832",
-                },
-            };
+            report = await invoke("get_dmi_report");
         } catch (err) {
-            console.error("Error:", err);
+            console.error("Rust Error:", err);
         }
     }
 
