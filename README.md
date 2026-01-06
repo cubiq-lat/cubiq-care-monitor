@@ -1,6 +1,8 @@
 # cubiq-care-monitor
 
-Monitor de equipamentos para Cubiq Care...
+Monitor de equipamentos para Cubiq Care.
+
+![Cubiq Care Monitor Panel](./static/images/cubiq-care-monitor-panel.png)
 
 ## Notas
 
