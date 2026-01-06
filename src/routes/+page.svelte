@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { m } from "$lib/paraglide/messages";
     import { TriangleAlert } from "@lucide/svelte";
     import { invoke } from "@tauri-apps/api/core";
     import { onMount } from "svelte";
@@ -65,6 +66,7 @@
             <img src="/images/logos/cubiq-logo-white.svg" alt="cubiq-logo" class="h-8 relative -top-[1px]" />
             <span class="text-zinc-500">></span>
             <span class="text-zinc-400 text-lg">Dashboard</span>
+            <span class="text-zinc-400 text-lg">{m.example_message({ username: "Pepe" })}</span>
         </div>
 
         <!-- Left -->
