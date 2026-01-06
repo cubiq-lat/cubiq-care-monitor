@@ -2,6 +2,21 @@
     "$schema": "https://inlang.com/schema/inlang-message-format",
     "example_message": "Olás {username}",
 
+    "see_all": "Ver todos",
+    "services": "Serviços",
+    "date": "Data",
+    "completed": "Finalizado",
+    "status": "Status",
+
     "dashboard": "Painel",
-    "report_problem": "Reportar problema"
+    "basic_data": "Dados básicos",
+    "next_preventive": "Próxima preventiva",
+    "reschedule": "Re-Agendar",
+    "organization": "Organização",
+    "contributor": "Colaborador",
+    "equipment_details": "Dados do equipamento",
+    "service_history": "Histórico de serviços",
+    "report_problem": "Reportar problema",
+    "service_type": "Tipo de serviço",
+    "serial_number": "Número de serie"
 }
