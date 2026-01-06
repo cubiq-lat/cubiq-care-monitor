@@ -91,7 +91,7 @@
         <!-- Left Panel -->
         <div class="border-r border-zinc-800 flex flex-col overflow-hidden">
             <!-- Basic Data Section - Fixed -->
-            <div class="p-8 border-b border-zinc-800 shrink-0">
+            <div class="p-8 pt-5 border-b border-zinc-800 shrink-0">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-lg font-bold text-red-600">DADOS BÁSICOS</h2>
                     <button
@@ -133,7 +133,7 @@
 
             <!-- Equipment Data Section - Scrollable -->
             <div
-                class="flex-1 overflow-y-scroll p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-900 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb:hover]:bg-zinc-600"
+                class="pt-5 flex-1 overflow-y-scroll p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-900 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb:hover]:bg-zinc-600"
             >
                 <h2 class="text-lg font-bold text-red-600 mb-8">DADOS DO EQUIPAMENTO</h2>
 
@@ -215,7 +215,7 @@
         <!-- Right Panel - Service History -->
         <div class="col-span-2 flex flex-col overflow-hidden">
             <!-- Header - Fixed -->
-            <div class="p-8 pb-4 shrink-0">
+            <div class="p-8 pt-4 pb-4 shrink-0">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-bold text-red-600">HISTÓRICO DE SERVIÇOS</h2>
                     <div class="flex items-center gap-2">
