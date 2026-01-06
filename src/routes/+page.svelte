@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { invoke } from "@tauri-apps/api/core";
+    import { TriangleAlert } from "@lucide/svelte";
     import { onMount } from "svelte";
 
     interface DmiReport {
@@ -31,18 +31,36 @@
         { date: "16/12/2025 14:53", completed: true, type: "Instalação/Atualização de Software", status: "SUCESSO" },
         { date: "16/12/2025 14:51", completed: true, type: "Manutenção Agendada", status: "SUCESSO" },
         { date: "16/12/2025 14:51", completed: true, type: "Manutenção Agendada", status: "SUCESSO" },
+        { date: "15/12/2025 10:20", completed: true, type: "Backup de Dados", status: "SUCESSO" },
+        { date: "14/12/2025 16:30", completed: false, type: "Diagnóstico de Hardware", status: "PENDENTE" },
+        { date: "13/12/2025 09:15", completed: true, type: "Limpeza Física", status: "SUCESSO" },
+        { date: "12/12/2025 14:00", completed: true, type: "Atualização de Drivers", status: "SUCESSO" },
+        { date: "11/12/2025 11:45", completed: true, type: "Verificação de Segurança", status: "SUCESSO" },
     ]);
 
     async function greet(event: Event) {
         event.preventDefault();
-        greetMsg = await invoke("greet", { name });
+        // greetMsg = await invoke("greet", { name });
     }
 
     async function fetchReport() {
         try {
-            report = await invoke("get_dmi_report");
+            // Simulando dados para o exemplo
+            report = {
+                os_name: "Ubuntu",
+                os_version: "22.04 LTS",
+                kernel_version: "5.15.0-91-generic",
+                host_name: "cubiq-workstation-01",
+                cpu_arch: "x86_64",
+                hardware: {
+                    product_name: "ThinkPad X1 Carbon Gen 9",
+                    manufacturer: "Lenovo",
+                    serial_number: "PF3K8X2Y",
+                    uuid: "4c4c4544-0050-4610-8033-b8c04f4b3832",
+                },
+            };
         } catch (err) {
-            console.error("Rust Error:", err);
+            console.error("Error:", err);
         }
     }
 
@@ -51,35 +69,23 @@
     });
 </script>
 
-<div class="min-h-screen bg-black text-white">
+<div class="min-h-screen h-screen bg-black text-white flex flex-col overflow-hidden">
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                    <span class="text-white font-bold text-xl">✕</span>
-                </div>
-                <span class="text-2xl font-bold">Cubiq</span>
-            </div>
+    <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 flex-shrink-0">
+        <!-- Right -->
+        <div class="flex items-center justify-center gap-4">
+            <img src="/images/logos/cubiq-logo-white.svg" alt="cubiq-logo" class="h-8 relative -top-[1px]" />
             <span class="text-zinc-500">></span>
-            <span class="text-zinc-400">Care Dashboard</span>
+            <span class="text-zinc-400 text-lg">Dashboard</span>
         </div>
+
+        <!-- Left -->
         <div class="flex items-center gap-3">
             <span class="text-sm text-zinc-500">STATUS</span>
             <button
                 class="px-6 py-1.5 bg-green-600 text-white rounded-full text-sm font-semibold hover:bg-green-700 transition"
             >
                 BOM
-            </button>
-            <button class="p-2 hover:bg-zinc-800 rounded transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    />
-                </svg>
             </button>
             <button class="p-1">
                 <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
@@ -89,44 +95,37 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-2 min-h-[calc(100vh-64px)]">
+    <div class="grid grid-cols-2 flex-1 overflow-hidden">
         <!-- Left Panel -->
-        <div class="border-r border-zinc-800">
-            <!-- Basic Data Section -->
-            <div class="p-8 border-b border-zinc-800">
+        <div class="border-r border-zinc-800 flex flex-col overflow-hidden">
+            <!-- Basic Data Section - Fixed -->
+            <div class="p-8 border-b border-zinc-800 flex-shrink-0">
                 <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-xl font-bold text-red-600">DADOS BÁSICOS</h2>
+                    <h2 class="text-lg font-bold text-red-600">DADOS BÁSICOS</h2>
                     <button
                         class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition text-sm font-semibold"
                     >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                            />
-                        </svg>
+                        <TriangleAlert class="h-4" />
                         REPORTAR PROBLEMA
                     </button>
                 </div>
 
                 {#if report}
-                    <div class="space-y-6">
+                    <div class="flex gap-10 justify-start">
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">PRÓXIMA PREVENTIVA</div>
-                            <div class="text-2xl font-bold mb-1">Em 5 días</div>
+                            <div class="text-xl font-bold mb-1">Em 5 días</div>
                             <button class="text-red-600 hover:text-red-500 text-sm font-medium">Re-Agendar</button>
                         </div>
 
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">ORGANIZAÇÃO</div>
-                            <div class="text-xl">Cubiq</div>
+                            <div class="text-lg">Cubiq</div>
                         </div>
 
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">COLABORADOR</div>
-                            <div class="text-xl">Pepe Gonzáles</div>
+                            <div class="text-lg">Pepe Gonzáles</div>
                         </div>
                     </div>
                 {:else}
@@ -137,25 +136,27 @@
                 {/if}
             </div>
 
-            <!-- Equipment Data Section -->
-            <div class="p-8">
-                <h2 class="text-xl font-bold text-red-600 mb-8">DADOS DO EQUIPAMENTO</h2>
+            <!-- Equipment Data Section - Scrollable -->
+            <div
+                class="flex-1 overflow-y-scroll p-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-900 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb:hover]:bg-zinc-600"
+            >
+                <h2 class="text-lg font-bold text-red-600 mb-8">DADOS DO EQUIPAMENTO</h2>
 
                 {#if report}
                     <div class="space-y-6">
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">NÚMERO DE SERIE</div>
-                            <div class="text-xl font-mono">{report.hardware.serial_number}</div>
+                            <div class="text-lg font-mono">{report.hardware.serial_number}</div>
                         </div>
 
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">MODELO</div>
-                            <div class="text-xl">{report.hardware.product_name}</div>
+                            <div class="text-lg">{report.hardware.product_name}</div>
                         </div>
 
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">FABRICANTE</div>
-                            <div class="text-xl">{report.hardware.manufacturer}</div>
+                            <div class="text-lg">{report.hardware.manufacturer}</div>
                         </div>
 
                         <div>
@@ -217,18 +218,24 @@
         </div>
 
         <!-- Right Panel - Service History -->
-        <div class="p-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-red-600">HISTÓRICO DE SERVIÇOS</h2>
-                <div class="flex items-center gap-2">
-                    <div class="px-3 py-1 border border-zinc-700 rounded text-sm">6 aparelhos</div>
-                    <button class="px-4 py-2 hover:bg-zinc-800 rounded transition text-sm">VER TODOS</button>
+        <div class="flex flex-col overflow-hidden">
+            <!-- Header - Fixed -->
+            <div class="p-8 pb-4 flex-shrink-0">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-bold text-red-600">HISTÓRICO DE SERVIÇOS</h2>
+                    <div class="flex items-center gap-2">
+                        <div class="px-3 py-1 border border-zinc-700 rounded text-sm">6 aparelhos</div>
+                        <button class="px-4 py-2 hover:bg-zinc-800 rounded transition text-sm">VER TODOS</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
+            <!-- Table - Scrollable -->
+            <div
+                class="flex-1 overflow-y-scroll px-8 pb-8 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-zinc-900 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb:hover]:bg-zinc-600"
+            >
                 <table class="w-full">
-                    <thead>
+                    <thead class="sticky top-0 bg-black">
                         <tr class="border-b border-zinc-800">
                             <th class="text-left py-3 px-4 text-zinc-400 font-normal text-sm">Data</th>
                             <th class="text-left py-3 px-4 text-zinc-400 font-normal text-sm">Finalizado</th>
