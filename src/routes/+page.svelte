@@ -1,4 +1,6 @@
 <script lang="ts">
+    import ConfigButton from "$lib/components/buttons/ConfigButton.svelte";
+    import LanguageButton from "$lib/components/buttons/LanguageButton.svelte";
     import { m } from "$lib/paraglide/messages";
     import { TriangleAlert } from "@lucide/svelte";
     import { invoke } from "@tauri-apps/api/core";
@@ -60,13 +62,13 @@
 
 <div class="min-h-screen h-screen bg-black text-white flex flex-col overflow-hidden">
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 flex-shrink-0">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 shrink-0">
         <!-- Right -->
         <div class="flex items-center justify-center gap-4">
-            <img src="/images/logos/cubiq-logo-white.svg" alt="cubiq-logo" class="h-8 relative -top-[1px]" />
+            <img src="/images/logos/cubiq-logo-white.svg" alt="cubiq-logo" class="h-8 relative -top-px" />
             <span class="text-zinc-500">></span>
-            <span class="text-zinc-400 text-lg">Dashboard</span>
-            <span class="text-zinc-400 text-lg">{m.example_message({ username: "Pepe" })}</span>
+            <span class="text-zinc-400 text-lg">{m.dashboard()}</span>
+            <!-- <span class="text-zinc-400 text-lg">{m.example_message({ username: "Pepe" })}</span> -->
         </div>
 
         <!-- Left -->
@@ -77,26 +79,26 @@
             >
                 BOM
             </button>
-            <button class="p-1">
-                <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">
-                    S
-                </div>
-            </button>
+
+            <ConfigButton />
+
+            <LanguageButton />
         </div>
     </div>
 
-    <div class="grid grid-cols-2 flex-1 overflow-hidden">
+    <!-- Body -->
+    <div class="grid grid-cols-3 flex-1 overflow-hidden">
         <!-- Left Panel -->
         <div class="border-r border-zinc-800 flex flex-col overflow-hidden">
             <!-- Basic Data Section - Fixed -->
-            <div class="p-8 border-b border-zinc-800 flex-shrink-0">
+            <div class="p-8 border-b border-zinc-800 shrink-0">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-lg font-bold text-red-600">DADOS BÁSICOS</h2>
                     <button
                         class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition text-sm font-semibold"
                     >
-                        <TriangleAlert class="h-4" />
-                        REPORTAR PROBLEMA
+                        <!-- <TriangleAlert class="h-4" /> -->
+                        {m.report_problem()}
                     </button>
                 </div>
 
@@ -104,16 +106,19 @@
                     <div class="flex gap-10 justify-start">
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">PRÓXIMA PREVENTIVA</div>
-                            <div class="text-xl font-bold mb-1">Em 5 días</div>
-                            <button class="text-red-600 hover:text-red-500 text-sm font-medium">Re-Agendar</button>
+                            <div class="flex flex-col gap-0 justify-start items-start">
+                                <div class="text-xl font-bold mb-0">Em 5 días</div>
+                                <button class="text-red-600 hover:text-red-500 text-sm font-medium">Re-Agendar</button>
+                            </div>
                         </div>
 
                         <div>
                             <div class="text-sm text-zinc-500 mb-1">ORGANIZAÇÃO</div>
                             <div class="text-lg">Cubiq</div>
                         </div>
-
-                        <div>
+                    </div>
+                    <div class="flex gap-10 justify-start">
+                        <div class="mt-3">
                             <div class="text-sm text-zinc-500 mb-1">COLABORADOR</div>
                             <div class="text-lg">Pepe Gonzáles</div>
                         </div>
@@ -208,9 +213,9 @@
         </div>
 
         <!-- Right Panel - Service History -->
-        <div class="flex flex-col overflow-hidden">
+        <div class="col-span-2 flex flex-col overflow-hidden">
             <!-- Header - Fixed -->
-            <div class="p-8 pb-4 flex-shrink-0">
+            <div class="p-8 pb-4 shrink-0">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-lg font-bold text-red-600">HISTÓRICO DE SERVIÇOS</h2>
                     <div class="flex items-center gap-2">

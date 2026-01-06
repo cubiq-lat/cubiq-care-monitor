@@ -1,4 +1,7 @@
 {
     "$schema": "https://inlang.com/schema/inlang-message-format",
-    "example_message": "Olás {username}"
+    "example_message": "Olás {username}",
+
+    "dashboard": "Painel",
+    "report_problem": "Reportar problema"
 }
