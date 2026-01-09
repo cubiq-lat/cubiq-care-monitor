@@ -14,11 +14,18 @@
             {
                 "title": "Cubiq Care Monitor",
                 "width": 1200,
-                "height": 700
+                "height": 700,
+                "label": "main"
             }
         ],
         "security": {
             "csp": null
+        },
+        "trayIcon": {
+            "id": "main-tray",
+            "iconPath": "icons/icon.ico",
+            "iconAsTemplate": false,
+            "tooltip": "Cubiq Care Monitor"
         }
     },
     "bundle": {

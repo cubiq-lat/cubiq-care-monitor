@@ -1,6 +1,11 @@
 use sysinfo::System;
 use std::process::Command;
 use serde::Serialize;
+use tauri::{
+    menu::{Menu, MenuItem},
+    tray::{TrayIconBuilder, TrayIconEvent},
+    Manager, Runtime,
+};
 
 #[derive(Default, Debug, Serialize)]
 pub struct Dmi {
@@ -91,12 +96,75 @@ fn fill_os_specific_info(dmi: &mut Dmi) {
 #[cfg(not(any(target_os = "linux", target_os = "windows", target_os = "macos")))]
 fn fill_os_specific_info(_dmi: &mut Dmi) {}
 
-// --- The Missing Run Function ---
+// --- System Tray Setup ---
+
+fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
+    // Create menu items
+    let show_item = MenuItem::with_id(app, "show", "Show", true, None::<&str>)?;
+    let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+    
+    // Build the menu
+    let menu = Menu::with_items(app, &[&show_item, &quit_item])?;
+    
+    // Build the tray icon
+    let _tray = TrayIconBuilder::new()
+        .menu(&menu)
+        .tooltip("Cubiq Care Monitor")
+        .icon(app.default_window_icon().unwrap().clone())
+        .on_tray_icon_event(|tray, event| {
+            if let TrayIconEvent::Click {
+                button: tauri::tray::MouseButton::Left,
+                ..
+            } = event
+            {
+                // Show window on left click
+                if let Some(window) = tray.app_handle().get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
+            }
+        })
+        .on_menu_event(|app, event| match event.id.as_ref() {
+            "show" => {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
+            }
+            "quit" => {
+                app.exit(0);
+            }
+            _ => {}
+        })
+        .build(app)?;
+    
+    Ok(())
+}
+
+// --- The Run Function with Tray ---
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            // Create the system tray
+            create_tray(app.handle())?;
+            
+            // Handle window close event to minimize to tray instead of closing
+            if let Some(window) = app.get_webview_window("main") {
+                let window_clone = window.clone();
+                window.on_window_event(move |event| {
+                    if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                        // Prevent the default close and hide instead
+                        api.prevent_close();
+                        let _ = window_clone.hide();
+                    }
+                });
+            }
+            
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             greet, 
             get_dmi_report
