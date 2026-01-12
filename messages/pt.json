@@ -7,6 +7,8 @@
     "date": "Data",
     "completed": "Finalizado",
     "status": "Status",
+    "continue": "Continuar",
+    "or": "ou",
 
     "dashboard": "Painel",
     "basic_data": "Dados básicos",
@@ -18,5 +20,14 @@
     "service_history": "Histórico de serviços",
     "report_problem": "Reportar problema",
     "service_type": "Tipo de serviço",
-    "serial_number": "Número de serie"
+    "serial_number": "Número de serie",
+
+    "login": "Entrar",
+    "loginYourEmail": "Seu email...",
+    "loginYourPassword": "Sua senha...",
+    "loginPassword": "Senha",
+    "loginContinueWithGoogle": "Continuar com Google",
+    "loginDontHaveAccount": "Não tem uma conta?",
+    "loginStartNow": "Começar agora",
+    "loggingIn": "Entrando..."
 }

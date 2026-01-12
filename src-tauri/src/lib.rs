@@ -4,8 +4,14 @@ use serde::Serialize;
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{TrayIconBuilder, TrayIconEvent},
-    Manager, Runtime,
+    Manager, Runtime, State,
 };
+use std::sync::Mutex;
+
+// Simple session state - just stores if user is logged in
+pub struct SessionState {
+    token: Mutex<Option<String>>,
+}
 
 #[derive(Default, Debug, Serialize)]
 pub struct Dmi {
@@ -40,6 +46,29 @@ fn get_dmi_report() -> serde_json::Value {
             "uuid": dmi.uuid,
         }
     })
+}
+
+// --- Session Commands ---
+
+#[tauri::command]
+fn is_logged_in(state: State<'_, SessionState>) -> bool {
+    state.token.lock().unwrap().is_some()
+}
+
+#[tauri::command]
+fn login(state: State<'_, SessionState>, username: String, password: String) -> Result<bool, String> {
+    // For now, just accept any login (we'll add real auth later)
+    if !username.is_empty() && !password.is_empty() {
+        *state.token.lock().unwrap() = Some(format!("token_{}", username));
+        Ok(true)
+    } else {
+        Err("Invalid credentials".to_string())
+    }
+}
+
+#[tauri::command]
+fn logout(state: State<'_, SessionState>) {
+    *state.token.lock().unwrap() = None;
 }
 
 // --- OS Specific Implementations ---
@@ -147,6 +176,9 @@ fn create_tray<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Result<()> {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .manage(SessionState {
+            token: Mutex::new(None),
+        })
         .setup(|app| {
             // Create the system tray
             create_tray(app.handle())?;
@@ -167,7 +199,10 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             greet, 
-            get_dmi_report
+            get_dmi_report,
+            is_logged_in,
+            login,
+            logout,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
