@@ -102,7 +102,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="p-8 pt-5">
+                <div class="p-8 pt-5 pb-4">
                     {#if report}
                         <div class="flex gap-10 justify-start">
                             <div>
@@ -145,7 +145,7 @@
             >
                 <div class="px-8">
                     {#if report}
-                        <div class="space-y-6">
+                        <div class="space-y-2">
                             <div>
                                 <div class="text-sm text-zinc-500 mb-1 uppercase">{m.serial_number()}</div>
                                 <div class="text-lg font-mono">{report.hardware.serial_number}</div>

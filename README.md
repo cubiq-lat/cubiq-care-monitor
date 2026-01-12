@@ -2,7 +2,7 @@
 
 Monitor de equipamentos para Cubiq Care.
 
-![Cubiq Care Monitor Panel](./static/images/cubiq-care-monitor-panel.png)
+![Cubiq Care Monitor Panel](./static/images/cubiq-care-monitor-dash.png)
 
 ## Notas
 
